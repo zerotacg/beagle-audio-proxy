@@ -1,0 +1,14 @@
+[Unit]
+Description=Audio Proxy - play audio on host
+
+[Service]
+ExecStart=~/bin/audio-proxy play host
+Restart=always
+RestartSec=1
+StartLimitBurst=100
+Nice=-10
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+

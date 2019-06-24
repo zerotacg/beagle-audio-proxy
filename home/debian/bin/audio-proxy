@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+
+mode="${1}"
+card="${2}"
+# optional specify destination file
+file="${3}"
+
+host="ZEDi8"
+slave="UAC1Gadget"
+rate=48000
+channels=2
+format=S16_LE
+buffer_size=1024
+socket_host="/tmp/usb-audio-host"
+socket_slave="/tmp/usb-audio-slave"
+
+main() {
+  case $card in
+    host)
+      card="${host}"
+      socket_output="${socket_host}"
+      socket_input="${socket_slave}"
+      ;;
+    slave)
+      card="${slave}"
+      socket_input="${socket_host}"
+      socket_output="${socket_slave}"
+      ;;
+  esac
+
+  case $mode in
+    record)
+      socket="${socket_output}"
+      record
+      ;;
+    play)
+      socket="${socket_input}"
+      play
+      ;;
+  esac
+}
+
+record() {
+  local output="${file:-${socket}}"
+
+  echo "record from ${card}"
+  # clean up old socket
+  if [[ -p "${socket}" ]]; then
+    rm "${socket}"
+  fi
+
+  # work arround first sampling rate gets stuck issue
+  # need to record on two different rates
+  dummy 44100
+  dummy 48000
+
+  # record into socket
+  mkfifo "${socket}"
+  # --duration=0
+  arecord \
+      --device="plughw:${card}" \
+      --rate=${rate} \
+      --channels=${channels} \
+      --format=${format} \
+      --buffer-size=${buffer_size} \
+      2>&1 \
+      "${output}"
+
+  # cleanup
+  rm "${socket}"
+}
+
+dummy() {
+  local rate=${1}
+  local device="hw:${card}"
+  local format="S32_LE"
+
+  arecord \
+      --device="${device}" \
+      --rate=${rate} \
+      --channels=${channels} \
+      --format=${format} \
+      --duration=1 \
+      /dev/null
+}
+
+play() {
+  local input="${file:-$socket}"
+
+  echo "play to ${card}"
+
+  aplay \
+    --device="plughw:${card}" \
+    --buffer-size=${buffer_size} \
+    2>&1 \
+    "${input}"
+}
+
+main

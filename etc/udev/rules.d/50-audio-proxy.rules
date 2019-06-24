@@ -1,0 +1,2 @@
+ACTIO=="add" SUBSYSTEM="sound" ... RUN+="/home/debinan/bin/audio-proxy restart"
+ACTIO=="remove" SUBSYSTEM="sound" ... RUN+="/home/debinan/bin/audio-proxy stop"
