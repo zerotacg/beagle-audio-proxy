@@ -5,6 +5,10 @@ The ps4 seems to only support USB Class 1 Audio. My audio interface does only su
 
 The scripts are hard coded to work for my audio interface but should be easy to adjust.
 
+It did not work with the kernel version that came with beaglebone image but worked fine with a more up to date one. You should also disable all cpu heavy services that you don't need to get better performance.
+
+I tried using an anonymous pipe, but noticed that using mkfifo seems to be more performant.
+
 ## aplay names
 To get the the name that can be used in the script.
 
