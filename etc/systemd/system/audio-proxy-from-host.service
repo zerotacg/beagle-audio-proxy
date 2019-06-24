@@ -2,7 +2,7 @@
 Description=Audio Proxy - record audio from host
 
 [Service]
-ExecStart=~/bin/audio-proxy record host
+ExecStart=/home/debian/bin/audio-proxy record host
 Restart=always
 RestartSec=1
 StartLimitBurst=100

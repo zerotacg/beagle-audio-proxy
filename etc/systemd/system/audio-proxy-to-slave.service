@@ -2,7 +2,7 @@
 Description=Audio Proxy - play audio on slave
 
 [Service]
-ExecStart=~/bin/audio-proxy play slave
+ExecStart=/home/debian/bin/audio-proxy play slave
 Restart=always
 RestartSec=1
 StartLimitBurst=100
