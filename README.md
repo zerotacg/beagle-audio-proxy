@@ -7,7 +7,9 @@ The scripts are hard coded to work for my audio interface but should be easy to 
 
 ## aplay names
 To get the the name that can be used in the script.
+```
     aplay -l
+```
 
 ## udev rules
 To get the attributes matching your sound card.
@@ -16,7 +18,7 @@ To get the attributes matching your sound card.
 ## update the kernel
 https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Debian_Build_Instructions
 4.19.x-ti All BeagleBone Variants and BeagleBoard-X15 + RT
-    sudo /opt/scripts/tools/update_kernel.sh --ti-rt-channel --lts-4_19
+    > sudo /opt/scripts/tools/update_kernel.sh --ti-rt-channel --lts-4_19
 
 ## usb gadget config
 kernel documentation for usb audio class 1
